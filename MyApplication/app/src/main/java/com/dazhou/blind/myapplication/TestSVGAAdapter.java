@@ -1,6 +1,7 @@
 package com.dazhou.blind.myapplication;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,16 +63,30 @@ public class TestSVGAAdapter extends RecyclerView.Adapter<TestSVGAAdapter.GiftVi
 
                     @Override
                     public void onError() {
-
                     }
                 });
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
+            Log.e("TestSVGAAdapter", "holder position:" + holder.getLayoutPosition());
             holder.svgaImageView.setVideoItem(entity);
-            holder.svgaImageView.startAnimation();
+//            holder.svgaImageView.startAnimation();
         }
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull GiftViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        Log.e("TestSVGAAdapter", "holder position detch:" + holder.getLayoutPosition());
+        holder.svgaImageView.stopAnimation(false);
+    }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull GiftViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        Log.e("TestSVGAAdapter", "holder position attach:" + holder.getLayoutPosition());
+        holder.svgaImageView.startAnimation();
     }
 
     @Override
